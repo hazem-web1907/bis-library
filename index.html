@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة دفعـة BIS - Hazem.Web</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-dark: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-green: #22c55e;
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Temp Notice Banner */
+    .temp-banner {
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+      color: #fff;
+      text-align: center;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Header */
+    header {
+      padding: 25px 20px;
+      text-align: center;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 5px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 15px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Contact Section Bar */
+    .action-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 12px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-action.whatsapp {
+      background-color: #166534;
+      border-color: var(--accent-green);
+      color: #fff;
+    }
+
+    .btn-action.whatsapp:hover {
+      background-color: #15803d;
+    }
+
+    /* Subjects Grid */
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .subject-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .subject-card:hover, .subject-card.active {
+      border-color: var(--primary);
+      background-color: #1e293b;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .subject-card i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .subject-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    /* Content Area */
+    .content-area {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 25px;
+      display: none;
+    }
+
+    .content-area.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    /* Weeks List */
+    .lectures-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .lecture-item {
+      background-color: var(--bg-dark);
+      border: 1px solid var(--border);
+      padding: 15px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .lecture-info h4 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .lecture-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn-view {
+      background-color: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-view:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Exam Box */
+    .exam-box {
+      background: linear-gradient(135deg, #1e1b4b, #311b92);
+      border: 1px dashed #6366f1;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .exam-box i {
+      font-size: 2rem;
+      color: #818cf8;
+      margin-bottom: 8px;
+    }
+
+    .exam-box h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .exam-box p {
+      font-size: 0.85rem;
+      color: #c7d2fe;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 450px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-dark);
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--accent-green);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. البنر التوضيحي للمنصة الكبرى -->
+  <div class="temp-banner">
+    <i class="fa-solid fa-rocket"></i> هذه مكتبة مؤقتة لتيسير الوصول لمواد الترم الحالي.. وانتظروا إطلاق المنصة الشاملة الكبرى قريباً!
+  </div>
+
+  <!-- 2. الهيدر -->
+  <header>
+    <h1>مكتبة دفعة BIS - الفرقة الثانية</h1>
+    <p>تصفح المحاضرات والملخصات الأسبوعية بكل سهولة</p>
+  </header>
+
+  <div class="container">
+    
+    <!-- 3. أزرار التواصل السريع -->
+    <div class="action-bar">
+      <button class="btn-action whatsapp" onclick="openModal('summary')">
+        <i class="fa-brands fa-whatsapp"></i> طلب ملخص / أسئلة محاضرة
+      </button>
+      <button class="btn-action" onclick="openModal('feedback')">
+        <i class="fa-regular fa-comment-dots"></i> اقتراح أو رأي للموقع
+      </button>
+    </div>
+
+    <!-- 4. شبكة المواد الخاصة بك -->
+    <div class="subjects-grid" id="subjectsGrid">
+      <!-- المواد بتترسم تلقائياً من البيانات تحت -->
+    </div>
+
+    <!-- 5. عرض محتوى المادة المختارة -->
+    <div class="content-area" id="contentArea">
+      <div class="section-title">
+        <i class="fa-solid fa-book-open" id="selectedSubjectIcon"></i>
+        <span id="selectedSubjectName">اختر مادة لمشاهدة المحاضرات</span>
+      </div>
+
+      <!-- قائمة الأسابيع والمحاضرات -->
+      <div class="lectures-list" id="lecturesList">
+        <!-- المحاضرات بتترسم هنا -->
+      </div>
+
+      <!-- قسم الامتحانات والأسئلة (المغلق مؤقتاً) -->
+      <div class="exam-box">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <h4>مراجعات واختبارات الامتحانات</h4>
+        <p>سيتم إتاحة ملخصات الامتحانات والأسئلة التفاعلية للمادة فور اقتراب موعد الفاينل!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 6. المودال (نافذة طلب ملخص أو تقديم رأي) -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 id="modalTitle">تواصل عبر الواتساب</h3>
+      
+      <div id="modalFormContent">
+        <!-- محتوى الفورم بيتغير حسب الزرار -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    تطوير المبادرة بواسطة <strong>Hazem Mohamed</strong> | BIS
+  </footer>
+
+  <!-- 7. البرمجة والبيانات المحدثة بالكامل -->
+  <script>
+    const myPhone = "201123095642"; // رقمك مع كود مصر
+
+    // قائمة المواد الـ 6 الخاصة بك طبقاً للجدول
+    const subjectsData = [
+      {
+        id: "mis",
+        name: "نظم معلومات إدارية",
+        icon: "fa-solid fa-network-wired",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "https://drive.google.com/file/d/1NJMA5JvFxfHyOk-LOLK7zzqsjRIQ32Kr/view?usp=drivesdk" }
+        ]
+      },
+      {
+        id: "production",
+        name: "إدارة الإنتاج والعمليات",
+        icon: "fa-solid fa-industry",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "#" }
+        ]
+      },
+      {
+        id: "analytics",
+        name: "تحليلات الأعمال",
+        icon: "fa-solid fa-chart-line",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "#" }
+        ]
+      },
+      {
+        id: "finance",
+        name: "مبادئ الإدارة المالية",
+        icon: "fa-solid fa-coins",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "#" }
+        ]
+      },
+      {
+        id: "english",
+        name: "لغة أجنبية 2",
+        icon: "fa-solid fa-language",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "#" }
+        ]
+      },
+      {
+        id: "cost_accounting",
+        name: "مبادئ محاسبة التكاليف",
+        icon: "fa-solid fa-calculator",
+        lectures: [
+          { week: "الأسبوع الأول", title: "#", date: "2026-10-01", link: "#" }
+        ]
+      }
+    ];
+
+    // رسم المواد عند تحميل الصفحة
+    window.onload = () => {
+      const grid = document.getElementById("subjectsGrid");
+      grid.innerHTML = subjectsData.map(sub => `
+        <div class="subject-card" onclick="selectSubject('${sub.id}')" id="card-${sub.id}">
+          <i class="${sub.icon}"></i>
+          <h3>${sub.name}</h3>
+        </div>
+      `).join('');
+    };
+
+    // عند الضغط على مادة
+    function selectSubject(subjectId) {
+      document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('active'));
+      document.getElementById(`card-${subjectId}`).classList.add('active');
+
+      const subject = subjectsData.find(s => s.id === subjectId);
+      document.getElementById("selectedSubjectName").innerText = subject.name;
+      document.getElementById("selectedSubjectIcon").className = subject.icon;
+
+      const lecturesList = document.getElementById("lecturesList");
+      
+      if(subject.lectures.length === 0) {
+        lecturesList.innerHTML = `<p style="color:var(--text-muted); text-align:center;">لا توجد محاضرات مضافة لهذه المادة بعد.</p>`;
+      } else {
+        lecturesList.innerHTML = subject.lectures.map(lec => `
+          <div class="lecture-item">
+            <div class="lecture-info">
+              <h4>${lec.week}: ${lec.title}</h4>
+              <span>التاريخ: ${lec.date}</span>
+            </div>
+            <a href="${lec.link}" target="_blank" class="btn-view">
+              <i class="fa-solid fa-file-pdf"></i> فتح / تحميل المحاضرة
+            </a>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById("contentArea").classList.add("active");
+    }
+
+    // إدارة نافذة الواتساب
+    function openModal(type) {
+      const modal = document.getElementById("contactModal");
+      const title = document.getElementById("modalTitle");
+      const content = document.getElementById("modalFormContent");
+
+      if (type === 'summary') {
+        title.innerText = "طلب ملخص أو أسئلة لمحاضرة";
+        content.innerHTML = `
+          <div class="form-group">
+            <label>اسم المادة:</label>
+            <input type="text" id="subjectInput" placeholder="مثال: تحليلات الأعمال">
+          </div>
+          <div class="form-group">
+            <label>رقم الأسبوع / اسم المحاضرة:</label>
+            <input type="text" id="weekInput" placeholder="مثال: الأسبوع الثاني">
+          </div>
+          <button class="btn-submit" onclick="sendWhatsAppSummary()"><i class="fa-brands fa-whatsapp"></i> إرسال عبر الواتساب</button>
+        `;
+      } else {
+        title.innerText = "إرسال اقتراح أو رأي";
+        content.innerHTML = `
+          <div class="form-group">
+            <label>اقتراحك أو رأيك:</label>
+            <textarea id="feedbackInput" rows="4" placeholder="اكتب رأيك أو ملاحظتك هنا..."></textarea>
+          </div>
+          <button class="btn-submit" onclick="sendWhatsAppFeedback()"><i class="fa-brands fa-whatsapp"></i> إرسال عبر الواتساب</button>
+        `;
+      }
+
+      modal.classList.add("active");
+    }
+
+    function closeModal() {
+      document.getElementById("contactModal").classList.remove("active");
+    }
+
+    function sendWhatsAppSummary() {
+      const sub = document.getElementById("subjectInput").value.trim();
+      const week = document.getElementById("weekInput").value.trim();
+
+      if(!sub || !week) {
+        alert("يرجى كتابة اسم المادة والأسبوع!");
+        return;
+      }
+
+      const message = `أهلاً يا حازم، محتاج ملخص/أسئلة لـ:%0A- المادة: ${sub}%0A- المحاضرة: ${week}`;
+      window.open(`https://wa.me/${myPhone}?text=${message}`, '_blank');
+      closeModal();
+    }
+
+    function sendWhatsAppFeedback() {
+      const feedback = document.getElementById("feedbackInput").value.trim();
+
+      if(!feedback) {
+        alert("يرجى كتابة رأيك أو اقتراحك!");
+        return;
+      }
+
+      const message = `أهلاً حازم، عندي رأي/اقتراح بخصوص موقع المحاضرات:%0A${feedback}`;
+      window.open(`https://wa.me/${myPhone}?text=${message}`, '_blank');
+      closeModal();
+    }
+  </script>
+</body>
+</html>
